@@ -96,8 +96,8 @@ export function HabitCard({
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-              variant="destructive"
               onClick={() => setConfirmOpen(true)}
+              className="text-destructive focus:text-destructive"
             >
               <Trash2 className="h-4 w-4" /> Delete habit
             </DropdownMenuItem>
