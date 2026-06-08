@@ -14,16 +14,314 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      badges: {
+        Row: {
+          badge_key: string
+          earned_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          badge_key: string
+          earned_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          badge_key?: string
+          earned_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      check_ins: {
+        Row: {
+          ai_feedback: Json | null
+          category: Database["public"]["Enums"]["habit_category"]
+          check_date: string
+          confidence_score: number | null
+          created_at: string
+          credits_awarded: number
+          habit_id: string
+          id: string
+          proof_data: Json | null
+          proof_image_url: string | null
+          status: Database["public"]["Enums"]["checkin_status"]
+          user_id: string
+          verification_score: number | null
+        }
+        Insert: {
+          ai_feedback?: Json | null
+          category: Database["public"]["Enums"]["habit_category"]
+          check_date?: string
+          confidence_score?: number | null
+          created_at?: string
+          credits_awarded?: number
+          habit_id: string
+          id?: string
+          proof_data?: Json | null
+          proof_image_url?: string | null
+          status?: Database["public"]["Enums"]["checkin_status"]
+          user_id: string
+          verification_score?: number | null
+        }
+        Update: {
+          ai_feedback?: Json | null
+          category?: Database["public"]["Enums"]["habit_category"]
+          check_date?: string
+          confidence_score?: number | null
+          created_at?: string
+          credits_awarded?: number
+          habit_id?: string
+          id?: string
+          proof_data?: Json | null
+          proof_image_url?: string | null
+          status?: Database["public"]["Enums"]["checkin_status"]
+          user_id?: string
+          verification_score?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "check_ins_habit_id_fkey"
+            columns: ["habit_id"]
+            isOneToOne: false
+            referencedRelation: "habits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      credit_balances: {
+        Row: {
+          balance: number
+          category: Database["public"]["Enums"]["habit_category"]
+          lifetime_earned: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          balance?: number
+          category: Database["public"]["Enums"]["habit_category"]
+          lifetime_earned?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          balance?: number
+          category?: Database["public"]["Enums"]["habit_category"]
+          lifetime_earned?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      credit_transactions: {
+        Row: {
+          amount: number
+          category: Database["public"]["Enums"]["habit_category"]
+          created_at: string
+          id: string
+          reason: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          category: Database["public"]["Enums"]["habit_category"]
+          created_at?: string
+          id?: string
+          reason: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          category?: Database["public"]["Enums"]["habit_category"]
+          created_at?: string
+          id?: string
+          reason?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      habits: {
+        Row: {
+          archived: boolean
+          category: Database["public"]["Enums"]["habit_category"]
+          color: string | null
+          created_at: string
+          description: string | null
+          icon: string | null
+          id: string
+          name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          archived?: boolean
+          category: Database["public"]["Enums"]["habit_category"]
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          archived?: boolean
+          category?: Database["public"]["Enums"]["habit_category"]
+          color?: string | null
+          created_at?: string
+          description?: string | null
+          icon?: string | null
+          id?: string
+          name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          consistency_score: number
+          created_at: string
+          current_streak: number
+          display_name: string | null
+          id: string
+          level: number
+          longest_streak: number
+          updated_at: string
+          username: string
+          verification_accuracy: number
+          xp: number
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          consistency_score?: number
+          created_at?: string
+          current_streak?: number
+          display_name?: string | null
+          id: string
+          level?: number
+          longest_streak?: number
+          updated_at?: string
+          username: string
+          verification_accuracy?: number
+          xp?: number
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          consistency_score?: number
+          created_at?: string
+          current_streak?: number
+          display_name?: string | null
+          id?: string
+          level?: number
+          longest_streak?: number
+          updated_at?: string
+          username?: string
+          verification_accuracy?: number
+          xp?: number
+        }
+        Relationships: []
+      }
+      shields: {
+        Row: {
+          category: Database["public"]["Enums"]["habit_category"]
+          cost: number
+          expires_at: string
+          id: string
+          protects_days: number
+          purchased_at: string
+          status: Database["public"]["Enums"]["shield_status"]
+          tier: Database["public"]["Enums"]["shield_tier"]
+          used_at: string | null
+          user_id: string
+        }
+        Insert: {
+          category: Database["public"]["Enums"]["habit_category"]
+          cost: number
+          expires_at: string
+          id?: string
+          protects_days: number
+          purchased_at?: string
+          status?: Database["public"]["Enums"]["shield_status"]
+          tier: Database["public"]["Enums"]["shield_tier"]
+          used_at?: string | null
+          user_id: string
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["habit_category"]
+          cost?: number
+          expires_at?: string
+          id?: string
+          protects_days?: number
+          purchased_at?: string
+          status?: Database["public"]["Enums"]["shield_status"]
+          tier?: Database["public"]["Enums"]["shield_tier"]
+          used_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      award_credits: {
+        Args: {
+          _amount: number
+          _category: Database["public"]["Enums"]["habit_category"]
+          _reason: string
+          _user_id: string
+        }
+        Returns: undefined
+      }
+      expire_old_shields: { Args: never; Returns: undefined }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
+      checkin_status: "pending" | "verified" | "rejected"
+      habit_category:
+        | "coding"
+        | "reading"
+        | "gym"
+        | "running"
+        | "meditation"
+        | "fasting"
+        | "custom"
+      shield_status: "active" | "used" | "expired"
+      shield_tier: "bronze" | "silver" | "gold"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +448,20 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+      checkin_status: ["pending", "verified", "rejected"],
+      habit_category: [
+        "coding",
+        "reading",
+        "gym",
+        "running",
+        "meditation",
+        "fasting",
+        "custom",
+      ],
+      shield_status: ["active", "used", "expired"],
+      shield_tier: ["bronze", "silver", "gold"],
+    },
   },
 } as const
