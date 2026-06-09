@@ -1,0 +1,45 @@
+services:
+  - type: web
+    name: consitrack-api
+    runtime: node
+    plan: starter
+    region: oregon
+    rootDir: backend
+    buildCommand: npm install && npm run build && npx prisma migrate deploy
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        fromDatabase:
+          name: consitrack-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: REFRESH_TOKEN_EXPIRES_IN
+        value: 30d
+      - key: CORS_ORIGIN
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_REDIRECT_URI
+        sync: false
+      - key: LOVABLE_API_KEY
+        sync: false
+      - key: AI_MODEL
+        value: google/gemini-2.5-flash
+
+databases:
+  - name: consitrack-db
+    plan: starter
+    region: oregon
+    postgresMajorVersion: "16"
