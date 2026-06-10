@@ -102,7 +102,10 @@ Server runs on `http://localhost:4000`.
 ## Deploy to Render
 
 1. Push this repo to GitHub.
-2. In Render, click **New > Blueprint**, point at the repo. `render.yaml` provisions the web service and PostgreSQL database automatically.
+2. In Render, click **New > Blueprint**, point at the repo. The root `render.yaml` provisions the web service and PostgreSQL database automatically.
+   - If you create a normal Web Service instead of a Blueprint, set **Root Directory** to `backend`.
+   - Use **Build Command**: `npm install && npm run build && npx prisma migrate deploy`
+   - Use **Start Command**: `npm start`
 3. Set sync-required secrets in the Render dashboard:
    - `CORS_ORIGIN` — your frontend URL(s), comma-separated
    - `FRONTEND_URL` — for OAuth redirect
