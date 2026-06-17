@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="grid lg:grid-cols-3 gap-6">
+  <div class="lg:col-span-2 space-y-6">
+    <div class="rounded-2xl p-6 bg-gradient-to-br from-brand-500 to-purple2 text-white">
+      <div class="text-sm uppercase tracking-wide opacity-80">Current streak</div>
+      <div class="text-5xl font-bold mt-1">{{ user.profile.current_streak }} 🔥</div>
+      <div class="mt-3 text-sm opacity-90">Longest: {{ user.profile.longest_streak }} · Accuracy: {{ user.profile.verification_accuracy }}% · Consistency: {{ user.profile.consistency_score }}/100</div>
+    </div>
+
+    <div class="bg-white border border-line rounded-2xl p-6">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold">Today's habits</h2>
+        <a href="{% url 'habits:create' %}" class="text-sm text-brand-600">+ New habit</a>
+      </div>
+      <div class="space-y-2">
+        {% for h in habits %}
+        <div class="flex items-center justify-between p-3 rounded-xl border border-line hover:bg-surface">
+          <div class="flex items-center gap-3">
+            <span class="text-xl">{{ h.category.icon }}</span>
+            <div>
+              <div class="font-medium">{{ h.name }}</div>
+              <div class="text-xs text-muted">{{ h.category.name }}</div>
+            </div>
+          </div>
+          {% if h.id in today_done_ids %}
+            <span class="text-green-600 text-sm font-medium">✓ Verified</span>
+          {% else %}
+            <a href="{% url 'checkins:start' h.id %}" class="text-sm px-3 py-1.5 rounded-lg bg-brand-500 text-white">Check in</a>
+          {% endif %}
+        </div>
+        {% empty %}
+        <p class="text-muted text-sm">No habits yet. <a href="{% url 'habits:create' %}" class="text-brand-600">Create one</a>.</p>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="bg-white border border-line rounded-2xl p-6">
+      <h2 class="text-lg font-semibold mb-4">120-day contribution heatmap</h2>
+      <div class="grid grid-cols-[repeat(20,minmax(0,1fr))] gap-1">
+        {% for d in heatmap %}
+        <div title="{{ d.date }}" class="aspect-square rounded {% if d.v %}bg-brand-500{% else %}bg-surface border border-line{% endif %}"></div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <aside class="space-y-6">
+    <div class="bg-white border border-line rounded-2xl p-6">
+      <h3 class="font-semibold mb-3">Credits by category</h3>
+      <div class="space-y-2">
+        {% for b in balances %}
+        <div class="flex justify-between text-sm"><span>{{ b.category.icon }} {{ b.category.name }}</span><span class="font-medium">{{ b.balance }}</span></div>
+        {% empty %}<p class="text-muted text-sm">Earn credits via verified check-ins.</p>{% endfor %}
+      </div>
+    </div>
+    <div class="bg-white border border-line rounded-2xl p-6">
+      <h3 class="font-semibold mb-3">Clubs</h3>
+      {% for m in memberships %}
+        <a href="{% url 'clubs:detail' m.club.id %}" class="block py-1 text-sm hover:text-brand-600">{{ m.club.name }}</a>
+      {% empty %}<p class="text-muted text-sm">Reach 7-day streaks to unlock clubs.</p>{% endfor %}
+    </div>
+    <div class="bg-white border border-line rounded-2xl p-6">
+      <h3 class="font-semibold mb-3">Recent badges</h3>
+      <div class="flex flex-wrap gap-2">
+        {% for ub in badges %}<span class="px-2 py-1 rounded-lg text-xs bg-gradient-to-r from-amber-100 to-purple-100">{{ ub.badge.icon }} {{ ub.badge.name }}</span>{% empty %}<p class="text-muted text-sm">Earn your first badge!</p>{% endfor %}
+      </div>
+    </div>
+  </aside>
+</div>
+{% endblock %}

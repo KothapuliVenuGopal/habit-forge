@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-6">Achievements</h1>
+<div class="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
+{% for it in items %}
+<div class="relative rounded-2xl p-5 border border-line bg-gradient-to-br
+  {% if it.badge.rarity == 'common' %}from-slate-100 to-slate-200
+  {% elif it.badge.rarity == 'rare' %}from-cyan-100 to-blue-200
+  {% elif it.badge.rarity == 'epic' %}from-purple-100 to-fuchsia-200
+  {% else %}from-amber-200 to-yellow-400{% endif %}
+  {% if not it.earned %}grayscale opacity-60{% endif %}
+  transition hover:-translate-y-0.5">
+  <div class="text-4xl">{{ it.badge.icon }}</div>
+  <div class="mt-2 font-semibold">{{ it.badge.name }}</div>
+  <div class="text-xs uppercase tracking-wide text-muted">{{ it.badge.rarity }}</div>
+  <p class="text-xs text-muted mt-1">{{ it.badge.description }}</p>
+  {% if it.earned %}
+    <div class="text-xs mt-2 text-green-700">Earned {{ it.earned.earned_at|date:"Y-m-d" }}</div>
+    <div class="absolute inset-0 rounded-2xl ring-2 ring-amber-400/50 pointer-events-none"></div>
+  {% else %}
+    <div class="text-xs mt-2 text-muted">🔒 Locked</div>
+  {% endif %}
+</div>
+{% endfor %}
+</div>
+{% endblock %}

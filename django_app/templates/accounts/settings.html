@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white border border-line rounded-2xl p-8">
+  <h1 class="text-xl font-bold mb-4">Settings</h1>
+  <form method="post" enctype="multipart/form-data" class="space-y-4">{% csrf_token %}
+    <input class="w-full border border-line rounded-lg px-3 py-2" name="display_name" value="{{ profile.display_name }}" placeholder="Display name">
+    <textarea class="w-full border border-line rounded-lg px-3 py-2" name="bio" rows="3" placeholder="Bio">{{ profile.bio }}</textarea>
+    <input type="file" name="avatar" accept="image/*" class="text-sm">
+    <label class="flex items-center gap-2 text-sm"><input type="checkbox" name="dms_enabled" {% if profile.dms_enabled %}checked{% endif %}> Allow direct messages</label>
+    <button class="px-4 py-2 rounded-lg bg-brand-500 text-white">Save</button>
+  </form>
+</div>
+{% endblock %}

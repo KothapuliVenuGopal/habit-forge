@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{% block title %}{{ BRAND_NAME }} — {{ BRAND_TAGLINE }}{% endblock %}</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config = {theme:{extend:{colors:{
+  brand:{50:'#EEF2FF',500:'#4F46E5',600:'#4338CA',700:'#3730A3'},
+  cyan2:'#06B6D4', purple2:'#8B5CF6',
+  ink:'#0F172A', muted:'#64748B', surface:'#F8FAFC', line:'#E2E8F0'
+}}}}</script>
+<link rel="stylesheet" href="{% load static %}{% static 'css/app.css' %}">
+</head>
+<body class="bg-white text-ink">
+<nav class="border-b border-line bg-white/80 backdrop-blur sticky top-0 z-30">
+  <div class="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between">
+    <a href="{% url 'core:landing' %}" class="font-bold text-lg bg-gradient-to-r from-brand-500 via-purple2 to-cyan2 bg-clip-text text-transparent">ConsiTrack</a>
+    <div class="flex items-center gap-4 text-sm">
+      {% if user.is_authenticated %}
+        <a href="{% url 'core:dashboard' %}" class="hover:text-brand-600">Dashboard</a>
+        <a href="{% url 'habits:list' %}" class="hover:text-brand-600">Habits</a>
+        <a href="{% url 'clubs:list' %}" class="hover:text-brand-600">Clubs</a>
+        <a href="{% url 'chat:global' %}" class="hover:text-brand-600">Chat</a>
+        <a href="{% url 'shields:marketplace' %}" class="hover:text-brand-600">Shields</a>
+        <a href="{% url 'rewards:marketplace' %}" class="hover:text-brand-600">Rewards</a>
+        <a href="{% url 'badges:list' %}" class="hover:text-brand-600">Badges</a>
+        <a href="{% url 'accounts:profile' %}" class="hover:text-brand-600">@{{ user.username }}</a>
+        <a href="{% url 'accounts:logout' %}" class="text-muted">Logout</a>
+      {% else %}
+        <a href="{% url 'accounts:login' %}" class="hover:text-brand-600">Login</a>
+        <a href="{% url 'accounts:register' %}" class="px-3 py-1.5 rounded-lg bg-brand-500 text-white hover:bg-brand-600">Get started</a>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+{% if messages %}
+<div class="max-w-7xl mx-auto px-4 mt-3 space-y-2">
+{% for m in messages %}<div class="px-3 py-2 rounded-lg text-sm {% if m.tags == 'error' %}bg-red-50 text-red-700{% else %}bg-green-50 text-green-700{% endif %}">{{ m }}</div>{% endfor %}
+</div>
+{% endif %}
+<main class="max-w-7xl mx-auto px-4 py-8">{% block content %}{% endblock %}</main>
+<footer class="border-t border-line mt-16">
+  <div class="max-w-7xl mx-auto px-4 py-8 text-sm text-muted flex flex-wrap gap-4 justify-between">
+    <div>© {{ BRAND_NAME }}</div>
+    <div class="flex gap-4">
+      <a href="{% url 'core:legal' 'terms' %}">Terms</a>
+      <a href="{% url 'core:legal' 'privacy' %}">Privacy</a>
+      <a href="{% url 'core:legal' 'community' %}">Community</a>
+      <a href="{% url 'core:legal' 'shield-policy' %}">Shield Policy</a>
+      <a href="{% url 'core:legal' 'credits-policy' %}">Credits Policy</a>
+      <a href="{% url 'core:legal' 'club-rules' %}">Club Rules</a>
+    </div>
+  </div>
+</footer>
+<script src="{% load static %}{% static 'js/app.js' %}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

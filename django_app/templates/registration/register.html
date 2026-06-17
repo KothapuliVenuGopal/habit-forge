@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white border border-line rounded-2xl p-8">
+  <h1 class="text-2xl font-bold mb-6">Create your account</h1>
+  <form method="post" class="space-y-4">{% csrf_token %}
+    <input class="w-full border border-line rounded-lg px-3 py-2" name="username" placeholder="Username" required>
+    <input class="w-full border border-line rounded-lg px-3 py-2" name="email" type="email" placeholder="Email" required>
+    <input class="w-full border border-line rounded-lg px-3 py-2" name="password" type="password" placeholder="Password" required>
+    <label class="flex items-start gap-2 text-sm text-muted">
+      <input type="checkbox" name="accept_terms" required class="mt-1">
+      <span>I accept the <a class="text-brand-600" href="{% url 'core:legal' 'terms' %}">Terms</a>, <a class="text-brand-600" href="{% url 'core:legal' 'privacy' %}">Privacy</a>, and <a class="text-brand-600" href="{% url 'core:legal' 'community' %}">Community Guidelines</a>.</span>
+    </label>
+    <button class="w-full py-2 rounded-lg bg-brand-500 text-white font-medium">Sign up</button>
+  </form>
+</div>
+{% endblock %}
