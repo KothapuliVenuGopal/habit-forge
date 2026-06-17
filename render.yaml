@@ -1,45 +1,35 @@
 services:
   - type: web
-    name: consitrack-api
-    runtime: node
+    name: consitrack-web
+    env: python
     plan: starter
-    region: oregon
-    rootDir: backend
-    buildCommand: npm install && npm run build && npx prisma migrate deploy
-    startCommand: npm start
-    healthCheckPath: /api/health
+    rootDir: django_app
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate
+    startCommand: daphne -b 0.0.0.0 -p $PORT consitrack.asgi:application
     envVars:
-      - key: NODE_ENV
-        value: production
-      - key: PORT
-        value: 10000
-      - key: DATABASE_URL
-        fromDatabase:
-          name: consitrack-db
-          property: connectionString
-      - key: JWT_SECRET
+      - key: DJANGO_SECRET_KEY
         generateValue: true
-      - key: JWT_EXPIRES_IN
-        value: 7d
-      - key: REFRESH_TOKEN_EXPIRES_IN
-        value: 30d
-      - key: CORS_ORIGIN
+      - key: DJANGO_DEBUG
+        value: "False"
+      - key: DJANGO_ALLOWED_HOSTS
+        value: ".onrender.com"
+      - key: DATABASE_URL
         sync: false
-      - key: FRONTEND_URL
+      - key: REDIS_URL
+        fromService:
+          name: consitrack-redis
+          type: redis
+          property: connectionString
+      - key: OPENAI_API_KEY
         sync: false
-      - key: GOOGLE_CLIENT_ID
+      - key: GEMINI_API_KEY
         sync: false
-      - key: GOOGLE_CLIENT_SECRET
+      - key: GOOGLE_OAUTH_CLIENT_ID
         sync: false
-      - key: GOOGLE_REDIRECT_URI
+      - key: GOOGLE_OAUTH_CLIENT_SECRET
         sync: false
-      - key: LOVABLE_API_KEY
-        sync: false
-      - key: AI_MODEL
-        value: google/gemini-2.5-flash
 
-databases:
-  - name: consitrack-db
-    plan: starter
-    region: oregon
-    postgresMajorVersion: "16"
+  - type: redis
+    name: consitrack-redis
+    plan: free
+    ipAllowList: []
