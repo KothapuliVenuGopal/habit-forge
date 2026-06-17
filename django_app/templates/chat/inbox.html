@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">Direct messages</h1>
+<div class="bg-white border border-line rounded-2xl divide-y divide-line">
+{% for r in rooms %}
+{% for p in r.participants.all %}{% if p != request.user %}
+<a href="{% url 'chat:dm' p.id %}" class="block p-3 hover:bg-surface text-sm">@{{ p.username }}</a>
+{% endif %}{% endfor %}
+{% empty %}<div class="p-4 text-muted">No conversations yet.</div>{% endfor %}
+</div>
+{% endblock %}

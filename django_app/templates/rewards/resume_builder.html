@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white border border-line rounded-2xl p-8">
+  <h1 class="text-xl font-bold mb-4">AI Resume Builder</h1>
+  <form method="post" class="space-y-3">{% csrf_token %}
+    <input name="name" placeholder="Full name" required class="w-full border border-line rounded-lg px-3 py-2">
+    <input name="email" placeholder="Email" required class="w-full border border-line rounded-lg px-3 py-2">
+    <textarea name="summary" rows="3" placeholder="Professional summary" class="w-full border border-line rounded-lg px-3 py-2"></textarea>
+    <textarea name="skills" rows="2" placeholder="Skills (comma separated)" class="w-full border border-line rounded-lg px-3 py-2"></textarea>
+    <textarea name="experience" rows="5" placeholder="Experience" class="w-full border border-line rounded-lg px-3 py-2"></textarea>
+    <textarea name="education" rows="3" placeholder="Education" class="w-full border border-line rounded-lg px-3 py-2"></textarea>
+    <button class="w-full py-2 rounded-lg bg-brand-500 text-white">Export ATS-friendly PDF</button>
+  </form>
+</div>
+{% endblock %}

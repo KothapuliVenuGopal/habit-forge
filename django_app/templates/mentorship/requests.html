@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">Mentorship requests</h1>
+<div class="grid md:grid-cols-2 gap-6">
+  <div>
+    <h2 class="font-semibold mb-2">Incoming</h2>
+    {% for r in incoming %}
+    <div class="bg-white border border-line rounded-xl p-3 flex justify-between mb-2 text-sm">
+      <span>@{{ r.mentee.username }} · {{ r.get_status_display }}</span>
+      {% if r.status == 'pending' %}
+      <span>
+        <button onclick="resp({{ r.id }},'accept')" class="text-green-600">Accept</button> ·
+        <button onclick="resp({{ r.id }},'reject')" class="text-red-600">Reject</button>
+      </span>{% endif %}
+    </div>
+    {% empty %}<p class="text-muted text-sm">No incoming requests.</p>{% endfor %}
+  </div>
+  <div>
+    <h2 class="font-semibold mb-2">Outgoing</h2>
+    {% for r in outgoing %}
+    <div class="bg-white border border-line rounded-xl p-3 mb-2 text-sm">@{{ r.mentor.username }} · {{ r.get_status_display }}</div>
+    {% empty %}<p class="text-muted text-sm">No outgoing requests.</p>{% endfor %}
+  </div>
+</div>
+<script>
+async function resp(id, action){
+  await fetch(`/mentorship/respond/${id}/${action}/`,{method:'POST',headers:{'X-CSRFToken':window.csrftoken}});
+  location.reload();
+}
+</script>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-xl mx-auto bg-white border border-line rounded-2xl p-8">
+  <h1 class="text-xl font-bold mb-2">AI verification questions</h1>
+  <p class="text-sm text-muted mb-4">Answer to verify your check-in. Pass at score ≥ 60.</p>
+  <form method="post" class="space-y-4">{% csrf_token %}
+    {% for q in ci.ai_questions %}
+    <div>
+      <label class="text-sm font-medium">{{ forloop.counter }}. {{ q }}</label>
+      <textarea name="q{{ forloop.counter0 }}" rows="2" required class="w-full mt-1 border border-line rounded-lg px-3 py-2"></textarea>
+    </div>
+    {% endfor %}
+    <button class="w-full py-2 rounded-lg bg-brand-500 text-white">Submit answers</button>
+  </form>
+</div>
+{% endblock %}

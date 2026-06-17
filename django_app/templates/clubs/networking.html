@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="text-2xl font-bold mb-4">Club Networking</h1>
+<p class="text-muted text-sm mb-6">Connect with members from 30, 100 and 365-day clubs.</p>
+<div class="grid md:grid-cols-3 gap-4">
+{% for m in members %}
+<div class="bg-white border border-line rounded-2xl p-4">
+  <div class="flex items-center gap-3">
+    {% if m.user.profile.is_online %}<span class="w-2 h-2 bg-green-500 rounded-full"></span>{% else %}<span class="w-2 h-2 bg-slate-300 rounded-full"></span>{% endif %}
+    <a href="{% url 'accounts:public_profile' m.user.username %}" class="font-medium">@{{ m.user.username }}</a>
+  </div>
+  <div class="text-xs text-muted mt-1">{{ m.club.name }} · {{ m.user.profile.current_streak }}🔥</div>
+  {% if m.user.profile.dms_enabled %}<a href="{% url 'chat:dm' m.user.id %}" class="mt-2 inline-block text-xs text-brand-600">Message</a>{% endif %}
+</div>
+{% endfor %}
+</div>
+{% endblock %}

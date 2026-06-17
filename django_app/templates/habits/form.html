@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-xl mx-auto bg-white border border-line rounded-2xl p-8">
+  <h1 class="text-xl font-bold mb-4">{% if habit %}Edit habit{% else %}New habit{% endif %}</h1>
+  <form method="post" class="space-y-4">{% csrf_token %}
+    <input name="name" required value="{{ habit.name|default:'' }}" class="w-full border border-line rounded-lg px-3 py-2" placeholder="Habit name">
+    <select name="category" class="w-full border border-line rounded-lg px-3 py-2">
+      {% for c in categories %}<option value="{{ c.id }}" {% if habit and habit.category_id == c.id %}selected{% endif %}>{{ c.icon }} {{ c.name }}</option>{% endfor %}
+    </select>
+    <textarea name="description" rows="3" class="w-full border border-line rounded-lg px-3 py-2" placeholder="Description">{{ habit.description|default:'' }}</textarea>
+    <input type="number" name="target_per_week" min="1" max="7" value="{{ habit.target_per_week|default:7 }}" class="w-full border border-line rounded-lg px-3 py-2">
+    <button class="w-full py-2 rounded-lg bg-brand-500 text-white">Save</button>
+  </form>
+</div>
+{% endblock %}

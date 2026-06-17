@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-xl mx-auto bg-white border border-line rounded-2xl p-8 text-center">
+  {% if ci.status == 'verified' %}
+    <div class="text-5xl">✅</div>
+    <h1 class="text-2xl font-bold mt-2">Verified!</h1>
+    <p class="text-muted mt-1">Score {{ ci.verification_score }} · +{{ ci.credits_awarded }} {{ ci.category.name }} credits</p>
+  {% else %}
+    <div class="text-5xl">❌</div>
+    <h1 class="text-2xl font-bold mt-2">Not verified</h1>
+    <p class="text-muted mt-1">Score {{ ci.verification_score }}. Try again with more detail.</p>
+  {% endif %}
+  <p class="mt-4 text-sm text-left whitespace-pre-line">{{ ci.ai_feedback }}</p>
+  <a href="{% url 'core:dashboard' %}" class="mt-6 inline-block px-4 py-2 rounded-lg bg-brand-500 text-white">Back to dashboard</a>
+</div>
+{% endblock %}
